@@ -1,13 +1,33 @@
 
-
-
+  import {React, useRef }from "react";
 import { motion } from "framer-motion";
 import {  Mail } from "lucide-react";
 import { MdAddCall } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
+import emailjs, { send } from "@emailjs/browser";
+
 
 
 const Contact = () => {
+const form = useRef();
+ 
+const sendEmail =(e) =>{
+e.preventDefault();
+  
+emailjs.sendForm("service_006ktm4","template_k8fxfdq",form.current,"6CxxBfsD1NaS3HJZP").then(
+  ()=>{
+    alert("Message sent successfully");
+    form.current.reset();
+    (error)=>{
+      alert("Failed to send message,Try again..",error.text);
+    }
+   
+  }
+  
+)
+}
+  
+
   return (
    <>
     <section
@@ -30,7 +50,7 @@ className="relative bg-black text-white min-h-[90vh] grid text-center justify-ce
         Contact Me
       </motion.h2>
      </div>
- <div className=" bg-transparent  flex  justify-center text-center gap-10 h-100 w-[1200px]  ">
+ <div className=" bg-transparent  flex  justify-center text-center gap-10 h-120 w-[1200px]  ">
      
       <div className="grid  bg-black w-1/4 items-center text-center justify-center z-10">
       <div className=" w-full flex items-center  text-center">
@@ -49,10 +69,10 @@ className="relative bg-black text-white min-h-[90vh] grid text-center justify-ce
           {/* Social Icons */}
           <div className="grid justify-center  gap-4 mt-5">
             <a
-              href="mailto:vy9008331@gmail.com"
+              href="mailto:vivekydvv0503@gmail.com"
               className="p-3 mt-2 rounded-md flex gap-3 w-auto "
             >
-              <Mail className="w-6 h-6 text-blue-300" /> vy9008331@gmail.com
+              <Mail className="w-6 h-6 text-blue-300" /> vivekydvv0503@gmail.com
             </a>
             <a
               href="tel:+91 7566212414"
@@ -77,16 +97,20 @@ className="relative bg-black text-white min-h-[90vh] grid text-center justify-ce
          <div className="h-100 w-100  items-center grid  bg-transparent">
           <h1 className="text-3xl font-bold text-blue-300">Send a message</h1>
  <form
- 
+ ref={form}
+  onSubmit={sendEmail}
   className=" rounded-2xl shadow-xl grid space-y-6 gap-6  backdrop-blur-lg"
 >
   {/* Name */}
   <div className="flex flex-col  ">
    
     <input
-      id="name"
+     
       type="text"
+      name="user_name"
       placeholder="Your name"
+   
+      required
       className="p-3  bg-black border border-none h-10 rounded-lg
                  focus:border-blue-400 focus:ring-2 focus:ring-blue-500 
                  outline-none text-white transition"
@@ -97,9 +121,26 @@ className="relative bg-black text-white min-h-[90vh] grid text-center justify-ce
   <div className="flex flex-col">
    
     <input
-      id="email"
+     
       type="email"
+      name="user_email"
+      
       placeholder="Your email"
+      className="p-3  bg-black border border-gray-700 h-10 rounded-lg
+                 focus:border-blue-400 focus:ring-2 focus:ring-blue-500 
+                 outline-none text-white transition"
+    />
+  </div>
+
+<div className="flex flex-col">
+   
+    <input
+     
+      type="subject"
+      name="subject"
+      required
+    
+      placeholder="Subject"
       className="p-3  bg-black border border-gray-700 h-10 rounded-lg
                  focus:border-blue-400 focus:ring-2 focus:ring-blue-500 
                  outline-none text-white transition"
@@ -111,6 +152,9 @@ className="relative bg-black text-white min-h-[90vh] grid text-center justify-ce
    
     <textarea
       id="message"
+      name="message"
+      
+      required
       rows="5"
       placeholder="Type your message here..."
       className="p-3  bg-black border border-gray-700 rounded-lg
